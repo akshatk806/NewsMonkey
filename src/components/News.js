@@ -4,11 +4,12 @@ import Newsitem from './Newsitem'
 export class News extends Component {
     constructor() {
         super();
-        console.log("Hello I am a constructor from news component");
+        // console.log("Hello I am a constructor from news component");
 
         // Setting the state
         this.state = {
-            articles: []
+            articles: [],
+            page:1
         }
 
     }
@@ -16,13 +17,38 @@ export class News extends Component {
     async componentDidMount(){
         // console.log("componentDidMount method started")
 
-        let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=c1165d9147f145c19dcd22265569e78b";
+        let url="https://newsapi.org/v2/top-headlines?country=in&apiKey=c1165d9147f145c19dcd22265569e78b&page=1&pageSize=20";
         let response=await fetch(url);
         // console.log(response);
         let data=await response.json();
         // console.log(data);
 
         this.setState({
+            articles:data.articles,
+            totalResults:data.totalResults
+        })
+    }
+
+    handlePrevClick=async ()=>{
+        let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=c1165d9147f145c19dcd22265569e78b&page=${this.state.page-1}&pageSize=20`;
+        let response=await fetch(url);;
+        let data=await response.json();
+        this.setState({
+            page:this.state.page-1,
+            articles:data.articles
+        })
+    }
+
+    handleNextClick=async ()=>{
+        // if(this.state.page+1>Math.ceil(this.state.totalResults/20)){
+            
+        // }else{
+        // }
+        let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=c1165d9147f145c19dcd22265569e78b&page=${this.state.page+1}&pageSize=20`;
+        let response=await fetch(url);
+        let data=await response.json();
+        this.setState({
+            page:this.state.page+1,
             articles:data.articles
         })
     }
@@ -30,7 +56,7 @@ export class News extends Component {
     render() {
         // console.log("Render method started");
         return (
-            <div className='container'>
+            <div className='container my-3'>
                 <h1>NewsMonkey - Top Headlines</h1>
 
                 <div className="row">
@@ -39,6 +65,10 @@ export class News extends Component {
                             <Newsitem title={element.title?element.title.slice(0,45):""} description={element.description?element.description.slice(0,88):""} imageURL={element.urlToImage} newsURL={element.url} />
                         </div>
                     })}
+                </div>
+                <div className="container d-flex justify-content-between">
+                    <button disabled={this.state.page<=1} type="button" className="btn btn-dark" onClick={this.handlePrevClick}>&larr; Previous</button>
+                    <button disabled={this.state.page+1>Math.ceil(this.state.totalResults/20)} type="button" className="btn btn-dark" onClick={this.handleNextClick}>Next &rarr;</button>
                 </div>
             </div>
         )
