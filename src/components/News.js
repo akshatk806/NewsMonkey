@@ -1,8 +1,23 @@
 import React, { Component } from 'react'
 import Newsitem from './Newsitem'
 import Spinner from './Spinner'
+import PropTypes from 'prop-types' // snippet -> impt
 
 export class News extends Component {
+    static defaultProps={
+        country:"in",
+        pageSize:15,
+        category:"general"
+    }
+
+    static propTypes={
+        country:PropTypes.string,
+        pageSize:PropTypes.number,
+        category:PropTypes.string
+    }
+
+
+
     constructor() {
         super();
         // console.log("Hello I am a constructor from news component");
@@ -19,7 +34,7 @@ export class News extends Component {
     async componentDidMount(){
         // console.log("componentDidMount method started")
 
-        let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=c1165d9147f145c19dcd22265569e78b&page=1&pageSize=${this.props.pageSize}`;
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c1165d9147f145c19dcd22265569e78b&page=1&pageSize=${this.props.pageSize}`;
         this.setState({
             loading:true
         })
@@ -36,7 +51,7 @@ export class News extends Component {
     }
 
     handlePrevClick=async ()=>{
-        let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=c1165d9147f145c19dcd22265569e78b&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c1165d9147f145c19dcd22265569e78b&page=${this.state.page-1}&pageSize=${this.props.pageSize}`;
         this.setState({
             loading:true
         })
@@ -50,7 +65,7 @@ export class News extends Component {
     }
 
     handleNextClick=async ()=>{
-        let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=c1165d9147f145c19dcd22265569e78b&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c1165d9147f145c19dcd22265569e78b&page=${this.state.page+1}&pageSize=${this.props.pageSize}`;
         this.setState({
             loading:true
         })
