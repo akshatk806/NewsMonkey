@@ -16,10 +16,12 @@ export class News extends Component {
         category:PropTypes.string
     }
 
+    capitalizeFirstLetter=string=> {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
-
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         // console.log("Hello I am a constructor from news component");
 
         // Setting the state
@@ -28,7 +30,11 @@ export class News extends Component {
             page:1,
             loading:false
         }
-
+        if(this.props.category==='general'){
+            document.title='NewsMonkey';
+        }else{
+            document.title=`NewsMonkey - ${this.capitalizeFirstLetter(this.props.category)}`;
+        }
     }
 
     async componentDidMount(){
@@ -82,7 +88,8 @@ export class News extends Component {
         // console.log("Render method started");
         return (
             <div className='container my-3'>
-                <h1 className='text-center'>NewsMonkey - Top Headlines</h1>
+                <h1 className='text-center'>{this.props.category==='general'?'NewsMonkey - Top Headlines':`NewsMonkey - Top ${this.capitalizeFirstLetter(this.props.category)} News`}</h1>
+                
                 {this.state.loading && <Spinner />}   {/* If the first condtion is true then only the second statement will checked*/}
 
                 <div className="row">
