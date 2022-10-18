@@ -109,7 +109,7 @@ export class News extends Component {
         // console.log("Render method started");
         return (
             <>
-                <h1 className='text-center'>{this.props.category==='general'?'NewsMonkey - Top Headlines':`NewsMonkey - Top ${this.capitalizeFirstLetter(this.props.category)} News`}</h1>
+                <h1 className='text-center' style={{marginTop:'60px'}}>{this.props.category==='general'?'NewsMonkey - Top Headlines':`NewsMonkey - Top ${this.capitalizeFirstLetter(this.props.category)} News`}</h1>
                 
                 {this.state.loading && <Spinner />}   {/* If the first condtion is true then only the second statement will checked*/}
 
