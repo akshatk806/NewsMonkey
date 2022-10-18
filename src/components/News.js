@@ -40,10 +40,10 @@ export class News extends Component {
     }
 
     async componentDidMount(){
-        // console.log("componentDidMount method started")
+        // console.log("componentDidMount method started") 
         this.props.setProgress(10)
 
-        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=b4f8d2a3de3b4601b4c5659d1d659000&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        let url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         this.setState({
             loading:true
         })
@@ -96,7 +96,7 @@ export class News extends Component {
         this.setState({
             page:++this.state.page
         })
-        const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=b4f8d2a3de3b4601b4c5659d1d659000&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        const url=`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         let response=await fetch(url)
         let data=await response.json();
         this.setState({
